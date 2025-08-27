@@ -33,7 +33,7 @@ func launch(ctx context.Context, cmd *cli.Command) error {
 	// Start capture and processing here
 	log.Info("Starting packet capture...")
 
-	statCh := make(chan pktstat.StatChKey, 1000)
+	statCh := make(chan pktstat.StatKeyCh, 1000)
 	defer close(statCh)
 
 	statHandler := pktstat.NewStatHandler(ctx, statCh)

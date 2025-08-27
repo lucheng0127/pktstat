@@ -17,7 +17,7 @@ type StatKey struct {
 	DstPort uint16
 }
 
-type StatChKey struct {
+type StatKeyCh struct {
 	Key  StatKey
 	Size int
 }
@@ -29,9 +29,13 @@ type StatEntry struct {
 
 type StatMap map[StatKey]StatEntry
 
+// PacketHandler defines a function type that processes packets from a pcap handle.
 type PacketHandler func(handle *pcap.Handle) error
 
-func NewStatHandler(ctx context.Context, statCh chan<- StatChKey) PacketHandler {
+// NewStatHandler creates a PacketHandler that statistics packets and sends them to the provided channel.
+// It decodes Ethernet, IPv4, IPv6, TCP, UDP, ICMPv4, and ICMPv6 layers.
+// The handler runs until the provided context is canceled.
+func NewStatHandler(ctx context.Context, statCh chan<- StatKeyCh) PacketHandler {
 	return func(handle *pcap.Handle) error {
 		packetSource := gopacket.ZeroCopyPacketDataSource(handle)
 		defer handle.Close()
@@ -96,7 +100,7 @@ func NewStatHandler(ctx context.Context, statCh chan<- StatChKey) PacketHandler 
 			}
 
 			pktLen := len(data)
-			statCh <- StatChKey{Key: k, Size: pktLen}
+			statCh <- StatKeyCh{Key: k, Size: pktLen}
 		}
 	}
 }
