@@ -7,7 +7,7 @@ import (
 	"syscall"
 	"time"
 
-	pktstat "github.com/lucheng0127/pkgstat"
+	pktstat "github.com/lucheng0127/pktstat"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v3"
 )

@@ -1,4 +1,4 @@
-module github.com/lucheng0127/pkgstat
+module github.com/lucheng0127/pktstat
 
 go 1.24.0
 
